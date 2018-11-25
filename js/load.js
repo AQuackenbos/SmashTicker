@@ -13,10 +13,10 @@
 
   var stl = {
     config: {
-      version: "0.1.0",
+      version: "2.0.0",
       browser: "chrome",
-      email: "nova.x81@gmail.com",
-      //exturl: "https://chrome.google.com/webstore/detail/dota-2-match-ticker/nejdjlaibiicicciokonbbkecjleilon",
+      email: "a.quackenbos@gmail.com",
+      exturl: "https://chrome.google.com/webstore/detail/super-smash-bros-stream-l/nhjklhalmbccpfhpnedcleiabpkocggi",
     },
     settings: {
       isPopout: localStorage.isPopout === "true",
@@ -64,7 +64,7 @@
 
 	function sortByViewers(a, b){
 	  var aViews = a.viewers;
-	  var bViews = b.viewers; 
+	  var bViews = b.viewers;
 	  return ((aViews < bViews) ? 1 : ((aViews > bViews) ? -1 : 0));
 	}
   var streams = {};
@@ -134,7 +134,7 @@
 		});
 		streams.brawl.sort(sortByViewers);
     });
-    var load_streams64 = $.getJSON("https://api.twitch.tv/kraken/streams?game=Super+Smash+Bros.&client_id=f8xsv23y7spzh9gtt8l8u49aqnuko8&callback=?",function(data){
+    var load_streams64 = $.getJSON("game=Super+Smash+Bros.&client_id=f8xsv23y7spzh9gtt8l8u49aqnuko8&callback=?",function(data){
 		streams.s64 = [];
 		$(data.streams).each(function(index,item){
 			streams.s64.push({

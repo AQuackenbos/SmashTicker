@@ -9,20 +9,6 @@ body {
 	margin: 0 auto;
 }
 
-.err {
-	text-align: center;
-}
-tbody {
-	font-size:0.85em;
-}
-
-#settingsList td {
-	vertical-align: middle;
-}
-.about{
-	margin-left:18px;
-}
-
 /* start spriting */
 .icon { background: url(../img/sprite.png) no-repeat top left; display: inline-block; width: 60px; height: 20px }
 .iconAll { background-position: 0px -60px; }
@@ -40,77 +26,4 @@ tr {
 	display: block;
 	margin-top: -10px;
 	margin-left: 10px;
-}
-
-.textCenter {
-	text-align: center !important;
-}
-
-.textRight {
-	text-align: right !important;
-}
-
-.permalink {
-	opacity: 0.7;
-	cursor: pointer;
-	float: right;
-}
-.permalink:hover {
-	opacity: 1;
-}
-.unboldWinner {
-	font-weight: normal !important;
-}
-.opaque {
-	opacity: 0.0;
-}
-/*OVERWRITTING*/
-.nav {
-	margin-bottom:-1px !important;
-}
-.accordion {
-	margin-bottom: 0px !important;
-}
-.accordion-heading .accordion-toggle {
-	padding: 6px 15px !important;
-	text-decoration:none !important;
-}
-.accordion-inner {
-	padding: 0px !important;
-	border-top: none !important;
-}
-.table {
-	margin-bottom: 0px !important;
-}
-.table th, .table td {
-	line-height: 18px !important;
-}
-.table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
-	background-color: antiqueWhite;
-}
-.tooltip-inner {
-	max-width: 240px !important;
-}
-
-.sub-tabs-top {
-	border-top: 0 !important;
-	margin-top: 1px !important;
-}
-
-.sub-tabs-left {
-	border-left: 0 !important;
-}
-
-.menutab {
-	min-width: 0 !important;
-}
-
-.tabs-left {
-	width: 50px;
-	float: left;
-	margin-right: -3px;
-}
-
-.alignborder {
-	border-left: 1px solid #ddd;
 }
