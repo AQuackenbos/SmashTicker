@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Super Smash Bros. Stream Lister">
+  <meta name="author" content="Based on code by Wololo">
+
+  <!-- Le styles -->
+  <link href="css/bootstrap.css" rel="stylesheet">
+  <link href="css/custom.css" rel="stylesheet">
+</head>
+<body>
+  <div class="tabbable tabs-top">
+    <ul id="menu" class="nav nav-tabs">
+      <li><a class="menutab hovmenu" id="nav_sett" title="Settings" href="#settings" data-toggle="tab"><i class="icon-wrench"></i></a></li>
+      <li><a class="menutab hovmenu" id="nav_stream_all" title="All Streams" title="News" href="#streams_all" data-toggle="tab"><i class="icon iconAll"></i></a></li>
+      <li><a class="menutab hovmenu" id="nav_stream_wiiu" title="Wii U Streams" title="News" href="#streams_wiiu" data-toggle="tab"><i class="icon iconWiiU"></i></a></li>
+      <li><a class="menutab hovmenu" id="nav_stream_3ds" title="3DS Streams" title="News" href="#streams_3ds" data-toggle="tab"><i class="icon icon3DS"></i></a></li>
+      <li><a class="menutab hovmenu" id="nav_stream_pm" title="PM Streams" title="News" href="#streams_pm" data-toggle="tab"><i class="icon iconPM"></i></a></li>
+      <li><a class="menutab hovmenu" id="nav_stream_brawl" title="Brawl Streams" title="News" href="#streams_brawl" data-toggle="tab"><i class="icon iconBrawl"></i></a></li>
+      <li><a class="menutab hovmenu" id="nav_stream_melee" title="Melee Streams" title="News" href="#streams_melee" data-toggle="tab"><i class="icon iconMelee"></i></a></li>
+      <li><a class="menutab hovmenu" id="nav_stream_64" title="64 Streams" title="News" href="#streams_64" data-toggle="tab"><i class="icon icon64"></i></a></li>
+      <li><a class="menutab" id="nav_update" title="Refresh" href="#"><i class="icon-refresh"></i></a></li>
+    </ul>
+  </div>
+  <div class="tab-content">
+  
+    <!-- ========================= SETTINGS ==================== -->
+    <div class="accordion tab-pane" id="settings">
+      <div class="accordion-group">
+        <div class="accordion-heading">
+          <a class="accordion-toggle" data-toggle="collapse" data-parent="#settings" href="#settingsOne">Settings</a>
+        </div>
+        <div id="settingsOne" class="accordion-body collapse in">
+          <div class="accordion-inner">
+            <table id="settingsList" class="table table-condensed">
+              <tbody>
+                <tr>
+                  <td>Load Stream in Popout Mode</td>
+                  <td><div class="btn-group" data-toggle="buttons-radio">
+                      <button id="spTrue" data-ispopout="true" type="button" class="btn btn-info btn-small spformat">On</button>
+                      <button id="spFalse" data-ispopout="false" type="button" class="btn btn-info btn-small spformat">Off</button>
+                  </div></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="accordion-group">
+        <div class="accordion-heading">
+          <a class="accordion-toggle" data-toggle="collapse" data-parent="#settings" href="#settingsTwo"><i class="icon-question-sign"></i>&nbsp;FAQ</a>
+        </div>
+        <div id="settingsTwo" class="accordion-body collapse">
+          <div class="accordion-inner">
+            <small class="faq">
+              <dl>
+                <dt>Is this identical to Dota 2 Match Ticker?</dt>
+                <dd>Pretty much.  All the code is based on that, just altered to work for Super Smash Bros.</dd>
+
+                <dt>Any plans on updating it?</dt>
+                <dd>Only if it breaks</dd>
+              </dl>
+            </small>
+          </div>
+        </div>
+      </div>
+      <div class="accordion-group">
+        <div class="accordion-heading">
+          <a class="accordion-toggle" data-toggle="collapse" data-parent="#settings" href="#settingsFour"><i class="icon-info-sign"></i>&nbsp;About</a>
+        </div>
+        <div id="settingsFour" class="accordion-body collapse">
+          <div class="accordion-inner">
+            <table class="about">
+              <tbody>
+                <tr>
+                  <td><b>Version:</b></td>
+                  <td>0.1.0</td>
+                </tr>
+                <tr>
+                  <td><b>Original Author:</b></td>
+                  <td>Hamed "Wololo" Al-Khabaz</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+	
+    <!-- ========================= Streams/VODs Tab ========================= -->
+    <div class="tab-pane alignborder" id="streams_all">
+		<table id="streamList-all" class="table table-hover table-condensed">
+			<tbody class="listload" id="tbody_streams_all">
+				<tr class="gif"></tr>
+			</tbody>
+		</table>
+    </div>
+    <div class="tab-pane alignborder" id="streams_64">
+		<table id="streamList-64" class="table table-hover table-condensed">
+			<tbody class="listload" id="tbody_streams_64">
+				<tr class="gif"></tr>
+			</tbody>
+		</table>
+    </div>
+    <div class="tab-pane alignborder" id="streams_melee">
+		<table id="streamList-melee" class="table table-hover table-condensed">
+			<tbody class="listload" id="tbody_streams_melee">
+				<tr class="gif"></tr>
+			</tbody>
+		</table>
+    </div>
+    <div class="tab-pane alignborder" id="streams_brawl">
+		<table id="streamList-brawl" class="table table-hover table-condensed">
+			<tbody class="listload" id="tbody_streams_brawl">
+				<tr class="gif"></tr>
+			</tbody>
+		</table>
+    </div>
+    <div class="tab-pane alignborder" id="streams_pm">
+		<table id="streamList-pm" class="table table-hover table-condensed">
+			<tbody class="listload" id="tbody_streams_pm">
+				<tr class="gif"></tr>
+			</tbody>
+		</table>
+    </div>
+    <div class="tab-pane alignborder" id="streams_wiiu">
+		<table id="streamList-wiiu" class="table table-hover table-condensed">
+			<tbody class="listload" id="tbody_streams_wiiu">
+				<tr class="gif"></tr>
+			</tbody>
+		</table>
+    </div>
+    <div class="tab-pane alignborder" id="streams_3ds">
+		<table id="streamList-3ds" class="table table-hover table-condensed">
+			<tbody class="listload" id="tbody_streams_3ds">
+				<tr class="gif"></tr>
+			</tbody>
+		</table>
+    </div>
+  </div>
+  <script src="js/vendor/jquery-2.0.3.min.js"></script>
+  <script src="js/vendor/bootstrap.js"></script>
+  <script src="js/vendor/date.format.js"></script>
+  <script src="js/load.js"></script>
+</body>
+</html>

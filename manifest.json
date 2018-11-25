@@ -1,0 +1,16 @@
+{
+   "browser_action": {
+      "default_icon": "icon128.png",
+      "default_popup": "popup.html"
+   },
+   "description": "Super Smash Bros. Twitch Detector",
+   "icons": {
+      "128": "icon128.png",
+      "16": "icon16.png",
+      "48": "icon48.png"
+   },
+   "manifest_version": 2,
+   "name": "Super Smash Bros. Stream Lister",
+   "version": "1.0.0",
+   "content_security_policy": "script-src 'self' https://api.twitch.tv; object-src 'self'"
+}
