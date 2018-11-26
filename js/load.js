@@ -27,7 +27,7 @@ var app = {
 	cache: {
 		ultimate: { cached: false, name: "Super Smash Bros. Ultimate", count: 0, viewers: 0, streams: [] },
 		wiiu: { cached: false, name: "Super Smash Bros. for Wii U", count: 0, viewers: 0, streams: [] },
-		threeds: { cached: false, name: "Super Smash Bros. for 3DS", count: 0, viewers: 0, streams: [] },
+		threeds: { cached: false, name: "Super Smash Bros. for Nintendo 3DS", count: 0, viewers: 0, streams: [] },
 		brawl: { cached: false, name: "Super Smash Bros. Brawl", count: 0, viewers: 0, streams: [] },
 		melee: { cached: false, name: "Super Smash Bros. Melee", count: 0, viewers: 0, streams: [] },
 		sixtyfour: { cached: false, name: "Super Smash Bros.", count: 0, viewers: 0, streams: [] },
@@ -104,7 +104,7 @@ function sortByViewers(a, b) {
 
 function loadTournaments(ignoreCache) {
 	if(ignoreCache || app.cache.tournaments.length == 0) {
-		let baseUrl = 'https://novax81.com/SmashTicker/server/smashgg.json';
+		let baseUrl = 'https://novax81.com/SmashTicker/server/smashgg.gql.json';
 		fetch(baseUrl, {
 			cache: "no-cache"
 		})
@@ -132,7 +132,11 @@ function drawTournaments() {
 		loadTournaments(true);
 	});
 	
+	let pbRow = $('#poweredByTemplate').content.cloneNode(true);
+	pbRow.querySelector('.powered-by').innerHTML = 'Powered by <a href="https://smash.gg/" target="_blank">Smash.GG</a>';
+	
 	container.appendChild(titleRow);
+	container.appendChild(pbRow);
 	
 	tournaments.forEach((t, idx) => {
 		let tournTemplate = $('#tournamentTemplate').content.cloneNode(true);
@@ -148,7 +152,7 @@ function drawTournaments() {
 			evTemplate.querySelector('.game-image').src = 'img/icons/'+e.gamecode+'.png';
 			evTemplate.querySelector('.event-name').href = e.url;
 			evTemplate.querySelector('.event-name').innerHTML = e.name;
-			evTemplate.querySelector('.event-times').innerHTML = e.start + ' - '+e.end;
+			evTemplate.querySelector('.event-times').innerHTML = e.start;
 			evTemplate.querySelector('.event-game').innerHTML = e.type;
 			
 			tournTemplate.querySelector('.eventContainer').appendChild(evTemplate);

@@ -1,3 +1,8 @@
+## 2.1.0
+* Updated server-side Smash.GG API to use alpha GQL API (way better!)
+* Adjusted layout for new Smash.GG response
+* Added PM Icon for PM Tournament results
+
 ## 2.0.0
 * Scripts redone (for efficiency)
 * Layout redone

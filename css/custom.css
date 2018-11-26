@@ -56,6 +56,12 @@ body {
 	margin-top: -15px;
 }
 
+.subtitle .powered-by {
+	font-size: 1rem;
+	text-align: center;
+	width: 100%;
+}
+
 .title .stream-count, .title .viewers {
 	margin-right: 15px;
 }
@@ -85,6 +91,7 @@ body {
 .brawl { background: url(../img/icons/brawl.png) no-repeat top left; background-size: contain;  }
 .melee { background: url(../img/icons/melee.png) no-repeat top left; background-size: contain;  }
 .sixtyfour { background: url(../img/icons/sixtyfour.png) no-repeat top left; background-size: contain;  }
+.pm { background: url(../img/icons/pm.png) no-repeat top left; background-size: contain; }
 
 .panel-block {
 	cursor:pointer;
