@@ -9,8 +9,9 @@
     "16": "icon16.png",
     "48": "icon48.png"
   },
-  "manifest_version": 3,
+  "manifest_version": 2,
   "name": "SmashTicker: Watch People Smash",
+  "short_name": "SmashTicker",
   "version": "2.0.0",
   "permissions": [
     "https://novax81.com/"
