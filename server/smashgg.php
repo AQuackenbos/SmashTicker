@@ -14,11 +14,16 @@ class SmashGGApi {
 	
 	public function __construct() {
 		$dt = new DateTime();
-		$dt->modify('+30 days');
+		$dt->modify('-2 days');
+		$afterDate = $dt->format('U');
+		$dt->modify('+32 days');
 		$beforeDate = $dt->format('U');
 		
 		//hand crafted love
-		$this->_tournamentSearchUrl = 'https://smash.gg/tournaments?per_page=100&filter=%7B%22upcoming%22%3Atrue%2C%22videogameIds%22%3A%5B%221%22%2C%222%22%2C%223%22%2C%224%22%2C%225%22%2C%221386%22%5D%2C%22isFeatured%22%3Atrue%2C%22beforeDate%22%3A'.$beforeDate.'%7D&page=1';
+		$this->_tournamentSearchUrl = 'https://smash.gg/tournaments?per_page=25&filter=%7B%22upcoming%22%3Afalse%2C%22videogameIds%22%3A%5B%221%22%2C%222%22%2C%223%22%2C%224%22%2C%225%22%2C%221386%22%5D%2C%22isFeatured%22%3Atrue%2C%22beforeDate%22%3A'.$beforeDate.'%2C%22afterDate%22%3A'.$afterDate.'%7D&page=1';
+		
+		//echo $this->_tournamentSearchUrl."\n";
+		
 		$this->_apiBaseUrl = 'https://api.smash.gg/';
 		$this->_baseLinkUrl = 'https://smash.gg/';
 		
@@ -85,7 +90,7 @@ class SmashGGApi {
 			$output[] = $tournOut;
 		}
 		
-		file_put_contents('smashgg.json',json_encode($output));
+		file_put_contents(__DIR__ . DIRECTORY_SEPARATOR . 'smashgg.json',json_encode($output));
 	}
 }
 
