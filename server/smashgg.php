@@ -20,7 +20,7 @@ class SmashGGApi {
 		$beforeDate = $dt->format('U');
 		
 		//hand crafted love
-		$this->_tournamentSearchUrl = 'https://smash.gg/tournaments?per_page=25&filter=%7B%22upcoming%22%3Afalse%2C%22videogameIds%22%3A%5B%221%22%2C%222%22%2C%223%22%2C%224%22%2C%225%22%2C%221386%22%5D%2C%22isFeatured%22%3Atrue%2C%22beforeDate%22%3A'.$beforeDate.'%2C%22afterDate%22%3A'.$afterDate.'%7D&page=1';
+		$this->_tournamentSearchUrl = 'https://smash.gg/tournaments?per_page=25&filter=%7B"upcoming"%3Afalse%2C"videogameIds"%3A%5B"1"%2C"29"%2C"3"%2C"4"%2C"5"%2C"1386"%5D%2C"isFeatured"%3Atrue%2C"beforeDate"%3A'.$beforeDate.'%2C"afterDate"%3A'.$afterDate.'%7D&page=1';
 		
 		//echo $this->_tournamentSearchUrl."\n";
 		
@@ -33,7 +33,15 @@ class SmashGGApi {
 	public function nightlyScrape() {
 		$output = [];
 		
-		$validGames = [1,2,3,4,5,1386];
+		$validGames = [
+			1 => 'melee',
+			3 => 'wiiu',
+			4 => 'sixtyfour',
+			29 => 'threeds',
+			5 => 'brawl',
+			1386 => 'ultimate'
+		];
+		
 		$searchPage = file_get_html($this->_tournamentSearchUrl);
 		
 		foreach($searchPage->find('div.TournamentCardHeading__title a') as $element) {
@@ -56,23 +64,24 @@ class SmashGGApi {
 			$events = [];
 			
 			foreach($tournData['entities']['event'] as $_event) {
-				if(!in_array($_event['videogameId'], $validGames))
+				if(!array_key_exists($_event['videogameId'], $validGames))
 					continue;
 				
 				
 				$edt = new DateTime();
 				$edt->setTimezone(new DateTimeZone($tournament['timezone']));
 				$edt->setTimestamp($_event['startAt']);
-				$evStart = $edt->format('M j H:i:s');
+				$evStart = $edt->format('M j h:i A');
 				$edt->setTimestamp($_event['endAt']);
-				$evEnd = $edt->format('M j H:i:s');
+				$evEnd = $edt->format('M j h:i A');
 				
 				$evOut = [
 					'name' => $_event['name'],
 					'start' => $evStart,
 					'end' => $evEnd,
 					'url' => $this->_baseLinkUrl . $_event['slug'],
-					'type' => $_event['typeDisplayStr']
+					'type' => $_event['typeDisplayStr'],
+					'gamecode' => $validGames[$_event['videogameId']]
 				];
 				
 				$events[] = $evOut;
