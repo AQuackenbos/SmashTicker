@@ -1,16 +1,19 @@
 {
-   "browser_action": {
-      "default_icon": "icon128.png",
-      "default_popup": "popup.html"
-   },
-   "description": "Find Super Smash Bros. Streams on Twitch, quick and easy.",
-   "icons": {
-      "128": "icon128.png",
-      "16": "icon16.png",
-      "48": "icon48.png"
-   },
-   "manifest_version": 3,
-   "name": "SmashTicker: Watch People Smash",
-   "version": "2.0.0",
-   "content_security_policy": "script-src 'self' https://novax81.com; object-src 'self'"
+  "browser_action": {
+    "default_icon": "icon128.png",
+    "default_popup": "popup.html"
+  },
+  "description": "Find Super Smash Bros. Streams on Twitch, quick and easy.",
+  "icons": {
+    "128": "icon128.png",
+    "16": "icon16.png",
+    "48": "icon48.png"
+  },
+  "manifest_version": 3,
+  "name": "SmashTicker: Watch People Smash",
+  "version": "2.0.0",
+  "permissions": [
+    "https://novax81.com/"
+  ],
+  "content_security_policy": "script-src 'self' https://novax81.com; object-src 'self'"
 }

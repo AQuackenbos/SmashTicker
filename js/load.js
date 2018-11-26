@@ -25,12 +25,12 @@ var app = {
 		switchTab(app.settings.lastTab);
 	},
 	cache: {
-		ultimate: { cached: false, count: 0, viewers: 0, streams: [] },
-		wiiu: { cached: false, count: 0, viewers: 0, streams: [] },
-		threeds: { cached: false, count: 0, viewers: 0, streams: [] },
-		brawl: { cached: false, count: 0, viewers: 0, streams: [] },
-		melee: { cached: false, count: 0, viewers: 0, streams: [] },
-		sixtyfour: { cached: false, count: 0, viewers: 0, streams: [] }
+		ultimate: { cached: false, name: "Super Smash Bros. Ultimate", count: 0, viewers: 0, streams: [] },
+		wiiu: { cached: false, name: "Super Smash Bros. for Wii U", count: 0, viewers: 0, streams: [] },
+		threeds: { cached: false, name: "Super Smash Bros. for 3DS", count: 0, viewers: 0, streams: [] },
+		brawl: { cached: false, name: "Super Smash Bros. Brawl", count: 0, viewers: 0, streams: [] },
+		melee: { cached: false, name: "Super Smash Bros. Melee", count: 0, viewers: 0, streams: [] },
+		sixtyfour: { cached: false, name: "Super Smash Bros.", count: 0, viewers: 0, streams: [] }
 	}
 };
 
@@ -45,8 +45,12 @@ function bindBasicEvents() {
 	
 	$$('.tab').forEach((el,idx) => {
 		el.addEventListener('click', e => {
-			Event.stop(e);
-			switchTab(e.target.id);
+		  let realTarget = e.target;
+		  
+		  while(realTarget.id === "")
+		    realTarget = realTarget.parentElement;
+		  
+			switchTab(realTarget.id);
 		});
 	});
 }
@@ -56,8 +60,26 @@ function switchTab(target) {
 		return;
 	}
 	
+	if(target === localStorage.lastTab)
+	  return;
+	
+	localStorage.lastTab = target;
 	app.settings.lastTab = target;
-	console.log('Switching to: '+target);
+	
+	if($('.tab.is-active'))
+	  $('.tab.is-active').classList.remove('is-active');
+	
+	$('#'+target).classList.add('is-active');
+	
+	$$('.content').forEach((el,idx) => {
+	  el.style.display = 'none';
+	});
+	
+	$('#tab-'+target).style.display = 'block';
+	
+	if($('#'+target).classList.contains('streams')) {
+	  getGameStreams(target, false);
+	}
 }
 
 function sortByViewers(a, b) {
@@ -67,34 +89,94 @@ function sortByViewers(a, b) {
 }
 
 function watchStream(streamer) {
-	var url = $(this).attr('href');
-	if(!url)
-	{
-		return;
+	var baseUrl = 'https://www.twitch.tv/';
+	if(app.settings.isPopout) {
+	  baseUrl = 'https://player.twitch.tv/?channel=';
 	}
-	var extra = '';
-	if(stl.settings.isPopout) {
-		extra = '/popout';
-	}
-	window.open(url+extra);
+	
+	window.open(baseUrl + streamer.name);
+}
+
+function cacheGame(game, response) {
+  let totalViewers = 0;
+  
+  response.streams.forEach((s,idx) => {
+    totalViewers += s.viewers;
+  });
+  
+  app.cache[game].cached = true;
+  app.cache[game].count = response._total;
+  app.cache[game].viewers = totalViewers;
+  app.cache[game].streams = response.streams;
 }
 
 function loadStreams(game, callback) {
 	let baseUrl = 'https://novax81.com/SmashTicker/server/twitch.php?game=';
-	fetch(baseUrl + game)
-		.then(r = > r.json())
+	fetch(baseUrl + game, {
+	  cache: "no-cache"
+	})
+		.then(r => r.json())
 		.then(r => {
-			callback(game, r);
+		  cacheGame(game, r);
+			callback(game);
 		});
 }
 
 function getGameStreams(game, ignoreCache) {
 	if(game === 'all') {
 		
+	} else {
+	  if(ignoreCache || !app.cache[game].cached) {
+	    loadStreams(game, renderSingleGameStreams);
+	  } else {
+	    renderSingleGameStreams(game);
+	  }
 	}
 }
 
-function renderSingleGameStreams(game, streamList) {
+function renderSingleGameStreams(game) {
+  
+  let data = app.cache[game];
+	let streams = data.streams;
+	
+	let container = $('#tab-'+game);
+	
+	while(container.children.length > 0) {
+	  container.children[0].parentNode.removeChild(container.children[0]);
+	}
+	
+	let titleRow = $('#titleTemplate').content.cloneNode(true);
+	let headerRow = $('#headerTemplate').content.cloneNode(true);
+	
+	titleRow.querySelector('.game-name').innerHTML = data.name;
+	titleRow.querySelector('.stream-count').innerHTML = data.count+' Streams';
+	titleRow.querySelector('.viewers').innerHTML = data.viewers+' Viewers';
+	titleRow.querySelector('.refresh .button').addEventListener('click',e => {
+	  getGameStreams(game, true);
+	});
+	
+	container.appendChild(titleRow);
+	
+	headerRow.querySelector('.game').style.display = 'none';
+	
+	container.appendChild(headerRow);
+	
+	streams.forEach((st, idx) => {
+	  let el = $('#rowTemplate').content.cloneNode(true);
+	  el.querySelector('.game').style.display = 'none';
+	  
+	  el.querySelector('.streamer').innerHTML = st.channel.display_name;
+	  el.querySelector('.streamer').setAttribute('data-tippy-content',st.channel.status);
+	  el.querySelector('.viewers').innerHTML = st.viewers;
+	  
+	  el.querySelector('a').addEventListener('click', e => {
+	    watchStream(st);
+	  });
+	  
+	  container.appendChild(el);
+	});
+	
+	tippy($$('.streamer'));
 	
 }
 
@@ -102,138 +184,7 @@ function renderAllGameStreams(complexStreamList) {
 	
 }
 
-	$(data.streams).each(function(index,item){
-		streams.wiiu.push({
-			game: 'WiiU',
-			logo: item.channel.logo,
-			link: item.channel.url,
-			label: item.channel.display_name,
-			title: item.channel.status,
-			viewers: item.viewers
-		});
-	});
-	streams.wiiu.sort(sortByViewers);
-	});
-	var load_streams3DS = $.getJSON("https://api.twitch.tv/kraken/streams?game=Super+Smash+Bros.+For+Nintendo+3DS&client_id=f8xsv23y7spzh9gtt8l8u49aqnuko8&callback=?",function(data){
-	streams.s3DS = [];
-	$(data.streams).each(function(index,item){
-		streams.s3DS.push({
-			game: '3DS',
-			logo: item.channel.logo,
-			link: item.channel.url,
-			label: item.channel.display_name,
-			title: item.channel.status,
-			viewers: item.viewers
-		});
-	});
-	streams.s3DS.sort(sortByViewers);
-	});
-	var load_streamsMelee = $.getJSON("https://api.twitch.tv/kraken/streams?game=Super+Smash+Bros.+Melee&client_id=f8xsv23y7spzh9gtt8l8u49aqnuko8&callback=?",function(data){
-	streams.melee = [];
-	$(data.streams).each(function(index,item){
-		streams.melee.push({
-			game: 'Melee',
-			logo: item.channel.logo,
-			link: item.channel.url,
-			label: item.channel.display_name,
-			title: item.channel.status,
-			viewers: item.viewers
-		});
-	});
-	streams.melee.sort(sortByViewers);
-	});
-	var load_streamsBrawl = $.getJSON("https://api.twitch.tv/kraken/streams?game=Super+Smash+Bros.+Brawl&client_id=f8xsv23y7spzh9gtt8l8u49aqnuko8&callback=?",function(data){
-	streams.brawl = [];
-	$(data.streams).each(function(index,item){
-		streams.brawl.push({
-			game: 'Brawl',
-			logo: item.channel.logo,
-			link: item.channel.url,
-			label: item.channel.display_name,
-			title: item.channel.status,
-			viewers: item.viewers
-		});
-	});
-	streams.brawl.sort(sortByViewers);
-	});
-	var load_streams64 = $.getJSON("game=Super+Smash+Bros.&client_id=f8xsv23y7spzh9gtt8l8u49aqnuko8&callback=?",function(data){
-	streams.s64 = [];
-	$(data.streams).each(function(index,item){
-		streams.s64.push({
-			game: '64',
-			logo: item.channel.logo,
-			link: item.channel.url,
-			label: item.channel.display_name,
-			title: item.channel.status,
-			viewers: item.viewers
-		});
-	});
-	streams.s64.sort(sortByViewers);
-	});
-
-	$.when(load_streamsWiiU,load_streams3DS,load_streamsMelee,load_streamsBrawl,load_streams64).done(function() {
-	streams.all = [].concat(streams.wiiu).concat(streams.s3ds).concat(streams.brawl).concat(streams.melee).concat(streams.s64);
-	streams.all.sort(sortByViewers);
-	
-	$(streams.all).each(function(idx,item){
-	addRow('#tbody_streams_all',item,true);
-	});
-	$(streams.wiiu).each(function(idx,item){
-	addRow('#tbody_streams_wiiu',item);
-	});
-	$(streams.s3DS).each(function(idx,item){
-	addRow('#tbody_streams_3ds',item);
-	});
-	$(streams.brawl).each(function(idx,item){
-	addRow('#tbody_streams_brawl',item);
-	});
-	$(streams.melee).each(function(idx,item){
-	addRow('#tbody_streams_melee',item);
-	});
-	$(streams.s64).each(function(idx,item){
-	addRow('#tbody_streams_64',item);
-	});
-	
-	$('.listload').each(function(idx,i){
-	if($(i).children().size() == 0)
-	{
-		$(i).append('<tr class="streamrow streams"><td class="textCenter">No streams.</td></tr>');
-	}
-	});
-	
-		$('.listload').each(function(i) {
-			$(this).find('.streamrow:eq(0)').tooltip({
-				html:true,
-				placement: 'bottom'
-			});
-		});
-
-		$('.streamrow').tooltip({
-			html:true,
-			placement: 'top'
-		});
-	});
-};
-
-function addRow(container,item,symbol)
-{
-if(item == undefined)
-{
-	return;
-}
-
-$(container).append('<tr href="'+item.link+'" data-id="'+item.label+'" class="streamrow streams twitch" rel="tooltip" data-original-title="'+item.title+'">'+
-					'<td class="stream_date"><img src="'+item.logo+'" width="16px" height="16px"/>'+(symbol ? '<i class="icon icon'+item.game+'"></i>' : '')+'</td>'+
-					'<td>'+item.label+'</td>'+
-					'<td class="textRight">'+item.viewers+'</td></tr>');
-}
-
-var update = function() {
-	$('.streamrow, .err, .tooltip').remove();
-	$('.listload').html("<tr class='gif'></tr>");
-	onLoadAjax();
-};
 
 // Start Main
-stl.init();
+app.init();
 
