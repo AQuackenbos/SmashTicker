@@ -3,22 +3,66 @@ body {
 }
 
 .tab {
-	width: 80px;
+	width: 50px;
+	height: 50px;
+}
+
+.content {
+	max-height: 500px;
+	overflow-y: auto;
+	overflow-x: hidden;
 }
 
 .icon {
-  width: 60px !important;
+	width: 30px !important;
+	height: 30px !important;
+}
+
+.title {
+	font-size: 1rem !important;
+	font-weight: bold;
+}
+
+.streamer {
+	width: 70%;
+}
+
+.channelimg {
+	width: 30px;
+	height: 30px;
+	margin-right: 10px;
+}
+
+.game-name {
+	width: 60%;
+}
+
+.game, .viewers, .details, .stream-count, .refresh {
+	width: 10%;
+	text-align: center;
+}
+
+.header {
+	font-weight: bold;
+}
+
+.title .panel-icon.game {
+	margin-top: -15px;
+}
+
+.title .stream-count, .title .viewers {
+	margin-right: 15px;
 }
 
 /* start spriting */
-.smashicon { background: url(../img/sprite.png) no-repeat top left; display: inline-block; width: 60px; height: 20px }
-.iconAll { background-position: 0px -60px; }
-.iconWiiU { background-position: 0px -100px;}
-.iconPM { background-position: 0px -120px; }
-.icon3DS { background-position: 0px -80px; }
-.iconBrawl { background-position: 0px -40px; }
-.iconMelee { background-position: 0px -20px }
-.icon64 { background-position: 0px 0px; }
+.smashicon { display: inline-block; width: 30px; height: 30px;}
+.all { background: url(../img/icons/all.png) no-repeat top left; background-size: contain;  }
+.ultimate { background: url(../img/icons/ultimate.png) no-repeat top left; background-size: contain;  }
+.wiiu { background: url(../img/icons/wiiu.png) no-repeat top left; background-size: contain;  }
+.threeds { background: url(../img/icons/threeds.png) no-repeat top left; background-size: contain;  }
+.brawl { background: url(../img/icons/brawl.png) no-repeat top left; background-size: contain;  }
+.melee { background: url(../img/icons/melee.png) no-repeat top left; background-size: contain;  }
+.sixtyfour { background: url(../img/icons/sixtyfour.png) no-repeat top left; background-size: contain;  }
 
 .panel-block {
 	cursor:pointer;

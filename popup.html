@@ -12,49 +12,49 @@
 <body>
 	<nav class="panel">
 		<div class="panel-tabs">
-			<a id="settings" href="#settings" class="has-icons-left tab" data-tippy="Settings">
+			<a id="settings" href="#settings" class="has-icons-left tab is-active" data-tippy="Settings">
 				<span class="icon is-small is-left">
-					<i class="ra ra-cog ra-lg"></i>
+					<i class="ra ra-cog ra-2x"></i>
 				</span>
 			</a>
 			<a id="tournaments" href="#tournaments" class="has-icons-left tab tournaments" data-tippy="Tournaments">
 				<span class="icon is-small is-left">
-					<i class="ra ra-crossed-axes ra-lg"></i>
+					<i class="ra ra-crossed-axes ra-2x"></i>
 				</span>
 			</a>
 			<a id="all" href="#all" class="has-icons-left tab streams" data-tippy="All Smash Streams">
 				<span class="icon is-small is-left">
-					<i class="smashicon iconAll"></i>
+					<i class="smashicon all"></i>
 				</span>
 			</a>
 			<a id="ultimate" href="#ultimate" class="has-icons-left tab streams" data-tippy="Super Smash Bros. Ultimate">
 				<span class="icon is-small is-left">
-					<i class="smashicon iconUltimate"></i>
+					<i class="smashicon ultimate"></i>
 				</span>
 			</a>
 			<a id="wiiu" href="#wiiu" class="has-icons-left tab streams" data-tippy="Super Smash Bros. for Wii U">
 				<span class="icon is-small is-left">
-					<i class="smashicon iconWiiU"></i>
+					<i class="smashicon wiiu"></i>
 				</span>
 			</a>
 			<a id="threeds" href="#threeds" class="has-icons-left tab streams" data-tippy="Super Smash Bros. for Nintendo 3DS">
 				<span class="icon is-small is-left">
-					<i class="smashicon icon3DS"></i>
+					<i class="smashicon threeds"></i>
 				</span>
 			</a>
 			<a id="brawl" href="#brawl" class="has-icons-left tab streams" data-tippy="Super Smash Bros. Brawl">
 				<span class="icon is-small is-left">
-					<i class="smashicon iconBrawl"></i>
+					<i class="smashicon brawl"></i>
 				</span>
 			</a>
 			<a id="melee" href="#melee" class="has-icons-left tab streams" data-tippy="Super Smash Bros. Melee">
 				<span class="icon is-small is-left">
-					<i class="smashicon iconMelee"></i>
+					<i class="smashicon melee"></i>
 				</span>
 			</a>
 			<a id="sixtyfour" href="#sixtyfour" class="has-icons-left tab streams" data-tippy="Super Smash Bros.">
 				<span class="icon is-small is-left">
-					<i class="smashicon icon64"></i>
+					<i class="smashicon sixtyfour"></i>
 				</span>
 			</a>
 		</div>
@@ -97,7 +97,7 @@
 	    <span class="viewers"></span>
 	    <span class="refresh">
 	      <button class="button">
-	        <i class="ra ra-cycle ra-2x"></i>
+	        <i class="ra ra-cycle ra-lg"></i>
 	      </button>
 	    </span>
 	  </a>
@@ -105,9 +105,9 @@
 	<template id="headerTemplate">
 	  <a class="panel-block header">
 	     <span class="panel-icon game">Game</span>
-	     <span class="streamer">Streamer</span>
+	     <span class="streamer" data-tippy-content="Stream Topic">Streamer</span>
+		 <span class="channelimg"></span>
 	     <span class="viewers">Viewers</span>
-	     <span class="details">Details</span>
 	  </a>
 	</template>
 	<template id="rowTemplate">
@@ -115,9 +115,9 @@
 	    <span class="panel-icon game">
 	      <i class="smashicon"></i>
 	    </span>
+		<img class="channelimg"/>
 	    <span class="streamer"></span>
 	    <span class="viewers"></span>
-	    <span class="details"></span>
 	  </a>
 	</template>
 	<script src="js/vendor/tippy.all.min.js"></script>
