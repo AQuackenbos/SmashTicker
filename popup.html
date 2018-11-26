@@ -58,7 +58,7 @@
 				</span>
 			</a>
 		</div>
-		<div id="tab-settings" class="content">
+		<div id="tab-settings" class="tabcontent">
 			<div class="panel-block">
 				<p class="control">
 					<label class="switch is-left" for="setting-popout">
@@ -81,24 +81,68 @@
 				<img src="img/ko-fi.svg" style="margin-right:10px;width:30px;height:30px"/> if you really love this buy me a coffee i guess
 			</a>
 		</div>
-		<div id="tab-tournaments" class="content">
-			<div class="panel-block">WIP</div>
-		</div>
-		<div id="tab-all" class="content">
-		</div>
-		<div id="tab-ultimate" class="content">
-		</div>
-		<div id="tab-wiiu" class="content">
-		</div>
-		<div id="tab-threeds" class="content">
-		</div>
-		<div id="tab-brawl" class="content">
-		</div>
-		<div id="tab-melee" class="content">
-		</div>
-		<div id="tab-sixtyfour" class="content">
-		</div>
+		<div id="tab-tournaments" class="tabcontent"></div>
+		<div id="tab-all" class="tabcontent"></div>
+		<div id="tab-ultimate" class="tabcontent"></div>
+		<div id="tab-wiiu" class="tabcontent"></div>
+		<div id="tab-threeds" class="tabcontent"></div>
+		<div id="tab-brawl" class="tabcontent"></div>
+		<div id="tab-melee" class="tabcontent"></div>
+		<div id="tab-sixtyfour" class="tabcontent"></div>
 	</nav>
+	<template id="tournamentHeader">
+		<a class="panel-block title">
+			<span class="icon is-small is-left panel-icon">
+				<i class="ra ra-crossed-axes ra-2x"></i>
+			</span>
+			<span class="tournament-header">
+				Upcoming Tournaments
+			</span>
+			<span class="refresh">
+			  <button class="button">
+				<i class="ra ra-cycle ra-lg"></i>
+			  </button>
+			</span>
+		</a>
+	</template>
+	<template id="tournamentTemplate">
+		<div class="panel-block">
+			<div class="box">
+				<article>
+					<div class="content">
+						<p>
+							<a class="tournament-name" target="_blank"></a>
+							&bull;
+							<small class="tournament-location"></small>
+							<br />
+							<small class="tournament-dates"></small>
+						</p>
+						<div class="box eventContainer"></div>
+					</div>
+				</article>
+			</div>
+		</div>
+	</template>
+	<template id="eventTemplate">
+		<article class="media">
+			<div class="media-left">
+				<figure class="image is-32x32">
+					<img class="game-image"/>
+				</figure>
+			</div>
+			<div class="media-content">
+				<div class="content">
+					<p>
+						<a class="event-name" target="_blank"></a>
+						&bull;
+						<small><em class="event-game"></em></small>
+						<br />
+						<small><em class="event-times"></em></small>
+					</p>
+				</div>
+			</div>
+		</article>
+	</template>
 	<template id="titleTemplate">
 	  <a class="panel-block title">
 	    <span class="panel-icon game">
@@ -123,7 +167,7 @@
 	  </a>
 	</template>
 	<template id="rowTemplate">
-	  <a class="panel-block">
+	  <a class="panel-block streamrow">
 	    <span class="panel-icon game">
 	      <i class="smashicon"></i>
 	    </span>

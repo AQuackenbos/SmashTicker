@@ -7,7 +7,7 @@ body {
 	height: 50px;
 }
 
-.content {
+.tabcontent {
 	max-height: 500px;
 	overflow-y: auto;
 	overflow-x: hidden;
@@ -42,16 +42,38 @@ body {
 	text-align: center;
 }
 
+.tournament-header {
+	width: 90%;
+	font-size: 2rem;
+	text-align: center;
+}
+
 .header {
 	font-weight: bold;
 }
 
-.title .panel-icon.game {
+.panel-icon.game {
 	margin-top: -15px;
 }
 
 .title .stream-count, .title .viewers {
 	margin-right: 15px;
+}
+
+.panel-block .box {
+	width: 100%;
+}
+
+.tournament-name, .event-name {
+	font-weight: bold;
+}
+
+.eventContainer {
+	background: #f5f5f5;
+}
+
+.eventContainer hr {
+	background-color: #e5e5e5 !important;
 }
 
 /* start spriting */

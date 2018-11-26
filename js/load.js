@@ -30,7 +30,8 @@ var app = {
 		threeds: { cached: false, name: "Super Smash Bros. for 3DS", count: 0, viewers: 0, streams: [] },
 		brawl: { cached: false, name: "Super Smash Bros. Brawl", count: 0, viewers: 0, streams: [] },
 		melee: { cached: false, name: "Super Smash Bros. Melee", count: 0, viewers: 0, streams: [] },
-		sixtyfour: { cached: false, name: "Super Smash Bros.", count: 0, viewers: 0, streams: [] }
+		sixtyfour: { cached: false, name: "Super Smash Bros.", count: 0, viewers: 0, streams: [] },
+		tournaments: []
 	}
 };
 
@@ -80,7 +81,7 @@ function switchTab(target, force) {
 	
 	$('#'+target).classList.add('is-active');
 	
-	$$('.content').forEach((el,idx) => {
+	$$('.tabcontent').forEach((el,idx) => {
 		el.style.display = 'none';
 	});
 	
@@ -89,12 +90,72 @@ function switchTab(target, force) {
 	if($('#'+target).classList.contains('streams')) {
 		getGameStreams(target, false);
 	}
+	
+	if($('#'+target).classList.contains('tournaments')) {
+		loadTournaments(false);
+	}
 }
 
 function sortByViewers(a, b) {
 	var aViews = a.viewers;
 	var bViews = b.viewers;
 	return ((aViews < bViews) ? 1 : ((aViews > bViews) ? -1 : 0));
+}
+
+function loadTournaments(ignoreCache) {
+	if(ignoreCache || app.cache.tournaments.length == 0) {
+		let baseUrl = 'https://novax81.com/SmashTicker/server/smashgg.json';
+		fetch(baseUrl, {
+			cache: "no-cache"
+		})
+		.then(r => r.json())
+		.then(r => {
+			app.cache.tournaments = r;
+			drawTournaments();
+		});
+	} else {
+		drawTournaments();
+	}
+}
+
+function drawTournaments() {
+	let tournaments = app.cache.tournaments;
+	let container = $('#tab-tournaments');
+	
+	while(container.children.length > 0) {
+		container.children[0].parentNode.removeChild(container.children[0]);
+	}
+	
+	let titleRow = $('#tournamentHeader').content.cloneNode(true);
+	
+	titleRow.querySelector('.refresh .button').addEventListener('click',e => {
+		loadTournaments(true);
+	});
+	
+	container.appendChild(titleRow);
+	
+	tournaments.forEach((t, idx) => {
+		let tournTemplate = $('#tournamentTemplate').content.cloneNode(true);
+		
+		tournTemplate.querySelector('.tournament-name').href = t.url;
+		tournTemplate.querySelector('.tournament-name').innerHTML = t.name;
+		tournTemplate.querySelector('.tournament-location').innerHTML = t.location;
+		tournTemplate.querySelector('.tournament-dates').innerHTML = t.start + ' - '+ t.end;
+		
+		t.events.forEach((e, evIdx) => {
+			let evTemplate = $('#eventTemplate').content.cloneNode(true);
+			
+			evTemplate.querySelector('.game-image').src = 'img/icons/'+e.gamecode+'.png';
+			evTemplate.querySelector('.event-name').href = e.url;
+			evTemplate.querySelector('.event-name').innerHTML = e.name;
+			evTemplate.querySelector('.event-times').innerHTML = e.start + ' - '+e.end;
+			evTemplate.querySelector('.event-game').innerHTML = e.type;
+			
+			tournTemplate.querySelector('.eventContainer').appendChild(evTemplate);
+		})
+		
+		container.appendChild(tournTemplate);
+	});
 }
 
 function watchStream(streamer) {
@@ -241,9 +302,9 @@ function drawTab(game, data, streams) {
 		el.querySelector('.smashicon').classList.add(st.gamecode);
 		el.querySelector('.channelimg').src = st.channel.logo;
 		el.querySelector('.streamer').innerHTML = st.channel.display_name;
-		el.querySelector('.streamer').setAttribute('data-tippy-content',st.channel.status);
 		el.querySelector('.viewers').innerHTML = st.viewers;
 		
+		el.querySelector('a').setAttribute('data-tippy-content',st.channel.status);
 		el.querySelector('a').addEventListener('click', e => {
 			watchStream(st);
 		});
@@ -251,7 +312,7 @@ function drawTab(game, data, streams) {
 		container.appendChild(el);
 	});
 	
-	tippy($$('.streamer'));
+	tippy($$('a.panel-block.streamrow'));
 }
 
 
