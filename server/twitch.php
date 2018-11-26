@@ -15,10 +15,10 @@ class TwitchApi {
     $this->_gamesWhitelist = [
       'ultimate'	=> 'Super Smash Bros. Ultimate',
       'wiiu'		=> 'Super Smash Bros. for Wii U',
-      '3ds'			=> 'Super Smash Bros. for Nintendo 3DS',
+      'threeds'			=> 'Super Smash Bros. for Nintendo 3DS',
       'brawl'		=> 'Super Smash Bros. Brawl',
       'melee'		=> 'Super Smash Bros. Melee',
-      '64'			=> 'Super Smash Bros.'
+      'sixtyfour'			=> 'Super Smash Bros.'
     ];
   }
 
@@ -51,4 +51,5 @@ $twitch = new TwitchApi();
 $json = $twitch->getGameStreams($_GET['game']);
 header('Content-Type: application/json');
 echo $json;
+
 
