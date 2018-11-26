@@ -2,8 +2,6 @@
 
 /** Server : API Throughput for Twitch **/
 require('keys.php');
-
-
 class TwitchApi {
   
   protected $_clientId;
@@ -15,24 +13,24 @@ class TwitchApi {
     $this->_clientId = $_KEYS['twitch'];
     $this->_baseUrl = 'https://api.twitch.tv/kraken/streams?';
     $this->_gamesWhitelist = [
-      'Super Smash Bros. Ultimate',
-      'Super Smash Bros. for Wii U',
-      'Super Smash Bros. for Nintendo 3DS',
-      'Super Smash Bros. Brawl',
-      'Super Smash Bros. Melee',
-      'Super Smash Bros.' //64
+      'ultimate'	=> 'Super Smash Bros. Ultimate',
+      'wiiu'		=> 'Super Smash Bros. for Wii U',
+      '3ds'			=> 'Super Smash Bros. for Nintendo 3DS',
+      'brawl'		=> 'Super Smash Bros. Brawl',
+      'melee'		=> 'Super Smash Bros. Melee',
+      '64'			=> 'Super Smash Bros.'
     ];
   }
 
   public function getGameStreams($game) {
-    if(!in_array($game, $this->_gamesWhitelist)) {
+    if(!array_key_exists($game,$this->_gamesWhitelist)) {
       return json_encode(['error' => true]);
     }
     
     $url = $this->_baseUrl;
     
     $params = [
-      'game' => $game,
+      'game' => $this->_gamesWhitelist[$game],
       'client_id' => $this->_clientId
     ];
     
@@ -41,6 +39,7 @@ class TwitchApi {
     
     $r = curl_init();
     curl_setopt($r, CURLOPT_URL, $url);
+    curl_setopt($r, CURLOPT_RETURNTRANSFER, true);
     $output = curl_exec($r);
     
     return $output;
@@ -52,4 +51,4 @@ $twitch = new TwitchApi();
 $json = $twitch->getGameStreams($_GET['game']);
 header('Content-Type: application/json');
 echo $json;
-exit;
+
