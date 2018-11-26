@@ -102,8 +102,12 @@ function sortByViewers(a, b) {
 	return ((aViews < bViews) ? 1 : ((aViews > bViews) ? -1 : 0));
 }
 
+
 function loadTournaments(ignoreCache) {
 	if(ignoreCache || app.cache.tournaments.length == 0) {
+		let container = $('#tab-tournaments');
+		setTabLoadingAnimation(container);
+		
 		let baseUrl = 'https://novax81.com/SmashTicker/server/smashgg.gql.json';
 		fetch(baseUrl, {
 			cache: "no-cache"
@@ -116,6 +120,14 @@ function loadTournaments(ignoreCache) {
 	} else {
 		drawTournaments();
 	}
+}
+
+function setTabLoadingAnimation(tab) {
+	let loadTemplate = $('#loadingPlaceholder').content.cloneNode(true);
+	while(tab.children.length > 0) {
+		tab.children[0].parentNode.removeChild(tab.children[0]);
+	}
+	tab.appendChild(loadTemplate);
 }
 
 function drawTournaments() {
@@ -188,6 +200,9 @@ function cacheGame(game, response) {
 }
 
 function loadStreams(game, callback) {
+	let container = $('#tab-'+game);
+	setTabLoadingAnimation(container);
+	
 	let baseUrl = 'https://novax81.com/SmashTicker/server/twitch.php?game=';
 	fetch(baseUrl + game, {
 		cache: "no-cache"
@@ -214,6 +229,9 @@ function getGameStreams(game, ignoreCache) {
 function buildAllGamesStreamList(ignoreCache) {
 	let games = Object.keys(allStreamResponse);
 	
+	let container = $('#tab-all');
+	setTabLoadingAnimation(container);
+	
 	games.forEach((g, idx) => {
 		if(ignoreCache || !app.cache[g].cached) {
 			loadStreams(g, flagGameResponse);
@@ -233,6 +251,9 @@ function flagGameResponse(game) {
 		if(allStreamResponse[g] === true)
 			responsesWanted++;
 	});
+	
+	if($('#tab-all .progress'))
+		$('#tab-all .progress').value = Math.round((responsesWanted / responsesNeeded) * 100);
 	
 	if(responsesWanted >= responsesNeeded) {
 		games.forEach((g,idx) => {
