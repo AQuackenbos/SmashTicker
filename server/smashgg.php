@@ -2,10 +2,9 @@
 if(@$_SERVER['REMOTE_IP'])
 	exit;
 
-require('lib/simple_html_dom.php');
 require('keys.php');
 
-/** Server : API Gatherer for Smash GG into nightly file **/
+/** Server : API Gatherer from smash.gg into hourly file **/
 class SmashGGApi {
 	protected $_tournamentSearchUrl;
 	protected $_apiBaseUrl;
@@ -92,7 +91,7 @@ class SmashGGApi {
 					city
 					timezone
 					events {
-						id 
+						id
 						name
 						slug
 						startAt

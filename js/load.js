@@ -145,7 +145,7 @@ function drawTournaments() {
 	});
 	
 	let pbRow = $('#poweredByTemplate').content.cloneNode(true);
-	pbRow.querySelector('.powered-by').innerHTML = 'Powered by <a href="https://smash.gg/" target="_blank">Smash.GG</a>';
+	pbRow.querySelector('.powered-by').innerHTML = '<span>Powered by </span><a href="https://smash.gg/" target="_blank"><img src="img/smash.gg.png" style="height:30px"/></a>';
 	
 	container.appendChild(titleRow);
 	container.appendChild(pbRow);

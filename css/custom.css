@@ -56,10 +56,16 @@ body {
 	margin-top: -15px;
 }
 
-.subtitle .powered-by {
+.powered-by {
 	font-size: 1rem;
 	text-align: center;
+	justify-content: center;
+	align-items: center;
 	width: 100%;
+}
+
+.powered-by span {
+  margin-right: 5px;
 }
 
 .title .stream-count, .title .viewers {
