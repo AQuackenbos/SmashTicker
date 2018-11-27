@@ -1,3 +1,6 @@
+## 2.1.2
+* Fixed popout/player setting not being respected until a window refresh
+
 ## 2.1.1
 * Fixed smash.gg to proper branding and logotype
 

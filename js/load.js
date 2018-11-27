@@ -10,10 +10,11 @@ function $$(s) {
 
 var app = {
 	meta: {
-		version: "2.0.0",
+		version: "2.1.2",
 		browser: "chrome",
 		email: "a.quackenbos@gmail.com",
 		exturl: "https://chrome.google.com/webstore/detail/super-smash-bros-stream-l/nhjklhalmbccpfhpnedcleiabpkocggi",
+		github: "https://github.com/AQuackenbos/SmashTicker"
 	},
 	settings: {
 		isPopout: localStorage.isPopout === "true",
@@ -46,11 +47,15 @@ var allStreamResponse = {
 
 function updateSettings() {
 	$('#setting-popout').checked = app.settings.isPopout;
+	$('#version').innerHTML = app.meta.version;
+	$('#link-store').href = app.meta.exturl;
+	$('#link-github').href = app.meta.github;
 }
 
 function bindBasicEvents() {
 	$('#setting-popout').addEventListener('change', e => {
 		localStorage.isPopout = $('#setting-popout').checked;
+		app.settings.isPopout = localStorage.isPopout;
 	});
 	
 	$$('.tab').forEach((el,idx) => {
