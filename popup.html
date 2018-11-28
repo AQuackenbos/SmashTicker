@@ -69,12 +69,12 @@
 				</p>
 			</div>
 			<div class="panel-block">
-				SmashTicker 2.0.0 by NovaX81
+				SmashTicker&nbsp;v<span id="version"></span>&nbsp;by NovaX81
 			</div>
-			<a class="panel-block" href="https://github.com/AQuackenbos/SmashTicker" target="_blank">
+			<a class="panel-block" href="https://github.com/AQuackenbos/SmashTicker" id="link-github" target="_blank">
 				Github
 			</a>
-			<a class="panel-block" href="https://chrome.google.com/webstore/detail/super-smash-bros-stream-l/nhjklhalmbccpfhpnedcleiabpkocggi" target="_blank">
+			<a class="panel-block" href="https://chrome.google.com/webstore/detail/super-smash-bros-stream-l/nhjklhalmbccpfhpnedcleiabpkocggi" id="link-store" target="_blank">
 				Chrome Extension
 			</a>
 			<a class="panel-block" href="https://ko-fi.com/novax81" target="_blank">
@@ -96,13 +96,18 @@
 				<i class="ra ra-crossed-axes ra-2x"></i>
 			</span>
 			<span class="tournament-header">
-				Upcoming Tournaments
+				Featured Tournaments
 			</span>
 			<span class="refresh">
 			  <button class="button">
 				<i class="ra ra-cycle ra-lg"></i>
 			  </button>
 			</span>
+		</a>
+	</template>
+	<template id="poweredByTemplate">
+		<a class="panel-block subtitle powered-by">
+		  
 		</a>
 	</template>
 	<template id="tournamentTemplate">
@@ -175,6 +180,11 @@
 	    <span class="streamer"></span>
 	    <span class="viewers"></span>
 	  </a>
+	</template>
+	<template id="loadingPlaceholder">
+		<a class="panel-block loading">
+			<progress class="progress is-small is-primary" max="100">Loading</progress>
+		</a>
 	</template>
 	<script src="js/vendor/tippy.all.min.js"></script>
 	<script src="js/load.js"></script>

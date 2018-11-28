@@ -10,10 +10,11 @@ function $$(s) {
 
 var app = {
 	meta: {
-		version: "2.0.0",
+		version: "2.1.2",
 		browser: "chrome",
 		email: "a.quackenbos@gmail.com",
 		exturl: "https://chrome.google.com/webstore/detail/super-smash-bros-stream-l/nhjklhalmbccpfhpnedcleiabpkocggi",
+		github: "https://github.com/AQuackenbos/SmashTicker"
 	},
 	settings: {
 		isPopout: localStorage.isPopout === "true",
@@ -27,7 +28,7 @@ var app = {
 	cache: {
 		ultimate: { cached: false, name: "Super Smash Bros. Ultimate", count: 0, viewers: 0, streams: [] },
 		wiiu: { cached: false, name: "Super Smash Bros. for Wii U", count: 0, viewers: 0, streams: [] },
-		threeds: { cached: false, name: "Super Smash Bros. for 3DS", count: 0, viewers: 0, streams: [] },
+		threeds: { cached: false, name: "Super Smash Bros. for Nintendo 3DS", count: 0, viewers: 0, streams: [] },
 		brawl: { cached: false, name: "Super Smash Bros. Brawl", count: 0, viewers: 0, streams: [] },
 		melee: { cached: false, name: "Super Smash Bros. Melee", count: 0, viewers: 0, streams: [] },
 		sixtyfour: { cached: false, name: "Super Smash Bros.", count: 0, viewers: 0, streams: [] },
@@ -46,11 +47,15 @@ var allStreamResponse = {
 
 function updateSettings() {
 	$('#setting-popout').checked = app.settings.isPopout;
+	$('#version').innerHTML = app.meta.version;
+	$('#link-store').href = app.meta.exturl;
+	$('#link-github').href = app.meta.github;
 }
 
 function bindBasicEvents() {
 	$('#setting-popout').addEventListener('change', e => {
 		localStorage.isPopout = $('#setting-popout').checked;
+		app.settings.isPopout = localStorage.isPopout;
 	});
 	
 	$$('.tab').forEach((el,idx) => {
@@ -102,9 +107,13 @@ function sortByViewers(a, b) {
 	return ((aViews < bViews) ? 1 : ((aViews > bViews) ? -1 : 0));
 }
 
+
 function loadTournaments(ignoreCache) {
 	if(ignoreCache || app.cache.tournaments.length == 0) {
-		let baseUrl = 'https://novax81.com/SmashTicker/server/smashgg.json';
+		let container = $('#tab-tournaments');
+		setTabLoadingAnimation(container);
+		
+		let baseUrl = 'https://novax81.com/SmashTicker/server/smashgg.gql.json';
 		fetch(baseUrl, {
 			cache: "no-cache"
 		})
@@ -116,6 +125,14 @@ function loadTournaments(ignoreCache) {
 	} else {
 		drawTournaments();
 	}
+}
+
+function setTabLoadingAnimation(tab) {
+	let loadTemplate = $('#loadingPlaceholder').content.cloneNode(true);
+	while(tab.children.length > 0) {
+		tab.children[0].parentNode.removeChild(tab.children[0]);
+	}
+	tab.appendChild(loadTemplate);
 }
 
 function drawTournaments() {
@@ -132,7 +149,11 @@ function drawTournaments() {
 		loadTournaments(true);
 	});
 	
+	let pbRow = $('#poweredByTemplate').content.cloneNode(true);
+	pbRow.querySelector('.powered-by').innerHTML = '<span>Powered by </span><a href="https://smash.gg/" target="_blank"><img src="img/smash.gg.png" style="height:30px"/></a>';
+	
 	container.appendChild(titleRow);
+	container.appendChild(pbRow);
 	
 	tournaments.forEach((t, idx) => {
 		let tournTemplate = $('#tournamentTemplate').content.cloneNode(true);
@@ -148,7 +169,7 @@ function drawTournaments() {
 			evTemplate.querySelector('.game-image').src = 'img/icons/'+e.gamecode+'.png';
 			evTemplate.querySelector('.event-name').href = e.url;
 			evTemplate.querySelector('.event-name').innerHTML = e.name;
-			evTemplate.querySelector('.event-times').innerHTML = e.start + ' - '+e.end;
+			evTemplate.querySelector('.event-times').innerHTML = e.start;
 			evTemplate.querySelector('.event-game').innerHTML = e.type;
 			
 			tournTemplate.querySelector('.eventContainer').appendChild(evTemplate);
@@ -184,6 +205,9 @@ function cacheGame(game, response) {
 }
 
 function loadStreams(game, callback) {
+	let container = $('#tab-'+game);
+	setTabLoadingAnimation(container);
+	
 	let baseUrl = 'https://novax81.com/SmashTicker/server/twitch.php?game=';
 	fetch(baseUrl + game, {
 		cache: "no-cache"
@@ -210,6 +234,9 @@ function getGameStreams(game, ignoreCache) {
 function buildAllGamesStreamList(ignoreCache) {
 	let games = Object.keys(allStreamResponse);
 	
+	let container = $('#tab-all');
+	setTabLoadingAnimation(container);
+	
 	games.forEach((g, idx) => {
 		if(ignoreCache || !app.cache[g].cached) {
 			loadStreams(g, flagGameResponse);
@@ -229,6 +256,9 @@ function flagGameResponse(game) {
 		if(allStreamResponse[g] === true)
 			responsesWanted++;
 	});
+	
+	if($('#tab-all .progress'))
+		$('#tab-all .progress').value = Math.round((responsesWanted / responsesNeeded) * 100);
 	
 	if(responsesWanted >= responsesNeeded) {
 		games.forEach((g,idx) => {
