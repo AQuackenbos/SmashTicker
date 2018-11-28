@@ -133,10 +133,13 @@ class SmashGGApi {
 				if(!array_key_exists($_event['videogameId'], $games))
 					continue;
 				
-				$edt = new DateTime();
-				$edt->setTimezone(new DateTimeZone($tournament['timezone']));
-				$edt->setTimestamp($_event['startAt']);
-				$evStart = $edt->format('M j, g:i A');
+				$evStart = '';
+				if($_event['startAt']) {
+					$edt = new DateTime();
+					$edt->setTimezone(new DateTimeZone($tournament['timezone']));
+					$edt->setTimestamp($_event['startAt']);
+					$evStart = $edt->format('M j, g:i A');
+				}
 				
 				$typeString = 'Singles';
 				if($_event['type'] > 1)
