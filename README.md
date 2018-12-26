@@ -1,4 +1,4 @@
-# SmashTicker v2.0.0
+# SmashTicker v2.1.2
 
 An extension for Chrome that grabs streams off twitch for all Super Smash Bros. games.
 
