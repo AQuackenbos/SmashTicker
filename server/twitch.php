@@ -31,9 +31,12 @@ class TwitchApi {
     
     $params = [
       'game' => $this->_gamesWhitelist[$game],
-      'client_id' => $this->_clientId
+      'client_id' => $this->_clientId,
+	  'api_version' => 5
     ];
     
+	// https://blog.twitch.tv/action-required-twitch-api-version-update-f3a21e6c3410 ?
+	
     $paramString = http_build_query($params);
     $url .= $paramString;
     
