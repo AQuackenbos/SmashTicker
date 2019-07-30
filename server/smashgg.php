@@ -69,7 +69,7 @@ class SmashGGApi {
 		$games = $this->getSmashGames();
 		$perPage = 25;
 		
-		$query = 'query TournamentsByVideogame($perPage: Int, $videogameIds: [Int], $beforeDate: Timestamp, $afterDate: Timestamp) {
+		$query = 'query TournamentsByVideogame($perPage: Int, $videogameIds: [ID], $beforeDate: Timestamp, $afterDate: Timestamp) {
 			tournaments(query: {
 				perPage: $perPage
 				page: 1
